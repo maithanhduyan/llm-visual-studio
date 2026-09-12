@@ -1,0 +1,19 @@
+# Model và trạng thái sinh ra khi chạy
+runs/*
+!runs/.gitkeep
+
+# Bản gốc của Cấp 3, nếu ai đó cài đặt tại chỗ
+../deepseek_lite/runs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Công cụ
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/

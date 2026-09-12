@@ -1,0 +1,106 @@
+BÀI 1: MÁY TÍNH HỌC NHƯ THẾ NÀO?
+
+Máy tính không hiểu. Máy tính chỉ đoán.
+Nhưng nó đoán rất nhiều lần, và mỗi lần sai thì nó sửa mình một chút.
+Sửa mãi, sửa mãi, đến lúc nó đoán đúng gần hết.
+Đó là toàn bộ bí mật của trí tuệ nhân tạo. Không có phép thuật nào khác.
+
+Một em bé học nói cũng vậy. Bé nghe người lớn nói, rồi bé bắt chước.
+Nói sai thì người lớn sửa. Bé thử lại. Vài năm sau bé nói được.
+Máy tính cũng thế, chỉ khác là nó thử hàng triệu lần mỗi ngày.
+
+BÀI 2: CHỮ BIẾN THÀNH SỐ
+
+Máy tính không nhìn thấy chữ. Nó chỉ nhìn thấy số.
+Nên việc đầu tiên là đổi chữ thành số.
+Mỗi ký tự được đổi thành một con số. Ví dụ chữ a thành 65, chữ b thành 66.
+Sau đó mỗi con số lại được đổi thành một dãy số dài, gọi là vector.
+Vector giống như một bản mô tả: chữ này gần chữ kia, chữ này khác chữ nọ.
+Nhờ vậy máy tính mới biết chữ nào đi với chữ nào.
+
+BÀI 3: ATTENTION, NHÌN LẠI PHÍA SAU
+
+Khi đọc câu Hôm nay trời rất đẹp, em hiểu chữ đẹp là vì em nhớ các chữ trước.
+Máy tính cũng phải làm như vậy. Nó phải nhìn lại những chữ đứng trước.
+Cách nhìn lại đó gọi là attention.
+Mỗi chữ tự hỏi: trong các chữ đứng trước, chữ nào giống mình nhất?
+Rồi nó lấy thông tin từ những chữ giống nhất đó.
+Chữ nào càng giống thì lấy càng nhiều. Chữ nào khác thì lấy rất ít.
+Máy tính không được nhìn về tương lai. Nếu nhìn được thì nó đã chép bài.
+
+BÀI 4: NHIỀU ĐẦU ĐỂ NHÌN NHIỀU KIỂU
+
+Một cái đầu thì chỉ nhìn được một kiểu.
+Nên người ta chia bộ não ra thành nhiều đầu, mỗi đầu nhìn một kiểu khác nhau.
+Đầu thứ nhất có thể nhìn chữ đứng ngay trước.
+Đầu thứ hai có thể nhìn chữ đầu câu.
+Đầu thứ ba có thể nhìn dấu câu.
+Cuối cùng ghép tất cả các đầu lại thành một câu trả lời.
+
+BÀI 5: CHUYÊN GIA
+
+Nếu bắt một người làm hết mọi việc thì người đó sẽ không giỏi việc nào.
+Nên người ta chia ra thành nhiều chuyên gia.
+Chuyên gia giỏi toán trả lời câu hỏi toán.
+Chuyên gia giỏi chữ nghĩa trả lời câu hỏi chữ nghĩa.
+Mỗi chữ chỉ hỏi một vài chuyên gia, không hỏi hết.
+Nhờ vậy model có thể rất to, mà mỗi lần chạy vẫn nhanh.
+Có một chuyên gia mà ai cũng hỏi, gọi là chuyên gia dùng chung.
+Chuyên gia dùng chung lo những việc cơ bản, như giữ cho câu văn trôi chảy.
+
+BÀI 6: CHIA VIỆC CHO CÔNG BẰNG
+
+Nếu không để ý, máy tính sẽ dồn hết việc cho một chuyên gia.
+Chuyên gia đó quá tải, còn những người khác thì ngồi chơi.
+Cách sửa: cho mỗi chuyên gia một điểm thiên vị.
+Cuối mỗi bước học, chuyên gia nào được chọn quá nhiều thì bị trừ điểm.
+Chuyên gia nào ít được chọn thì được cộng điểm.
+Dần dần việc chia đều trở lại. Cách này không cần thêm hàm phạt nào cả.
+
+BÀI 7: BỘ NHỚ ĐỆM
+
+Khi máy tính viết một câu, nó viết từng chữ một.
+Viết xong chữ này mới viết chữ tiếp theo.
+Nếu mỗi lần viết lại phải đọc lại cả câu từ đầu thì rất chậm.
+Nên người ta giữ lại những gì đã tính rồi, gọi là bộ nhớ đệm.
+Có bộ nhớ đệm, viết chữ thứ một trăm nhanh gần bằng viết chữ thứ nhất.
+
+BÀI 8: CỬA SỔ TRƯỢT
+
+Đọc một câu dài, em không cần nhớ hết cả câu.
+Em chỉ cần nhớ những chữ vừa đọc.
+Máy tính cũng vậy. Nó chỉ nhìn lại một đoạn gần nhất, gọi là cửa sổ trượt.
+Nhờ vậy câu càng dài thì máy tính càng đỡ mệt.
+Cửa sổ càng rộng thì nhớ càng xa, nhưng càng tốn công.
+
+BÀI 9: NHIỀU DÒNG SUY NGHĨ
+
+Thay vì chỉ có một dòng suy nghĩ, ta cho máy tính bốn dòng chạy song song.
+Mỗi dòng có tiếng nói riêng khi góp ý.
+Và có độ to riêng khi nhận kết quả trả về.
+Bốn dòng bàn bạc với nhau rồi mới đưa ra câu trả lời.
+Cách này giúp máy tính bớt quên những gì đã học ở đầu câu.
+
+BÀI 10: ĐƯỜNG TẮT
+
+Mỗi tầng chỉ nên học thêm một chút, chứ không phải học lại từ đầu.
+Nên người ta để một đường tắt đi vòng qua mỗi tầng.
+Bài cũ được giữ nguyên, chỉ ghi thêm ý mới vào bên cạnh.
+Nhờ đường tắt này mà model một trăm tầng vẫn học được.
+Không có đường tắt thì model sâu chỉ toàn quên.
+
+BÀI 11: HỌC VẸT VÀ HỌC THẬT
+
+Học vẹt là thuộc lòng bài mà không hiểu gì.
+Học thật là hiểu đến mức gặp bài mới vẫn làm được.
+Máy tính cũng có hai kiểu đó.
+Nếu bài học quá ít mà máy quá to, nó sẽ học vẹt.
+Dấu hiệu: điểm trên bài cũ rất thấp, mà điểm trên bài mới lại rất cao.
+Muốn học thật thì phải cho nó đọc nhiều bài khác nhau.
+
+BÀI 12: BÉ CŨNG LÀM ĐƯỢC
+
+Bé không cần máy tính to. Bé chỉ cần hiểu từng bước một.
+Đọc chậm thôi. Mỗi dòng code trả lời đúng một câu hỏi.
+Hỏi mãi thì hiểu. Làm mãi thì quen.
+Hôm nay bé hiểu một tầng. Mai bé hiểu cả một model.

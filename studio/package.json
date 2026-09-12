@@ -1,0 +1,15 @@
+{
+  "name": "mini-deepseek-studio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "bun run server.ts",
+    "dev": "bun --hot server.ts"
+  },
+  "dependencies": {
+    "three": "^0.186.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.185.4"
+  }
+}

@@ -1,0 +1,4 @@
+# Chỉ cần PyTorch. Không cần GPU — bản mini chạy tốt trên CPU.
+# Cài bản CPU cho nhẹ:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+torch>=2.0

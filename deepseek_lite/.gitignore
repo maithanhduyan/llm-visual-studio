@@ -1,0 +1,16 @@
+# Model sau khi học xong (tự sinh ra, không cần commit)
+runs/*
+!runs/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Công cụ
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/

@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+
+# Model sau khi học xong (tự sinh ra, không cần commit)
+mini_deepseek.pt
+tiny_gpt.pt
+deepseek_lite/runs/
+
+# Studio (Bun) — có dùng three.js cho phần 3D
+node_modules/
+
+.chrome-tmp/

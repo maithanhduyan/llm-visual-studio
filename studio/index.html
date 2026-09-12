@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mini DeepSeek Studio</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <h1>Mini DeepSeek <span>Studio</span></h1>
+        <p class="lede">
+          Mở nắp hộp ba mô hình trong repo này ra xem bên trong: nó xếp các ký tự
+          trong đầu như thế nào, nó chú ý vào đâu, và nó hỏi chuyên gia nào.
+        </p>
+
+        <div id="model-seg" class="seg models"></div>
+        <p id="model-what" class="model-what"></p>
+
+        <dl id="meta" class="meta"></dl>
+      </header>
+
+      <section class="bar">
+        <label for="prompt">Câu để phân tích</label>
+        <div class="row">
+          <input id="prompt" type="text" spellcheck="false" autocomplete="off" value="Học mãi thì giỏi" />
+          <button id="go">Phân tích</button>
+        </div>
+        <div id="examples" class="examples"></div>
+        <p id="status" class="status"></p>
+      </section>
+
+      <section class="panel">
+        <div class="head">
+          <h2><span class="num">1</span> Kiến trúc model</h2>
+          <p>
+            Sơ đồ toàn bộ model. Ba trục đều có nghĩa:
+            <b>ngang</b> là dòng chảy (đọc từ trái sang phải),
+            <b>sâu</b> là tầng thứ mấy (mỗi tầng lùi ra sau một quãng),
+            <b>đứng</b> là nhánh — đường tắt vòng lên trên, chuyên gia toả xuống dưới.
+            Kéo chuột để xoay, lăn để phóng to.
+          </p>
+        </div>
+
+        <div class="controls">
+          <label class="check"><input type="checkbox" id="arch-labels" checked /> hiện tên</label>
+          <label class="check"><input type="checkbox" id="arch-flow" checked /> hạt sáng chạy</label>
+          <label class="check"><input type="checkbox" id="arch-spin" /> tự xoay</label>
+          <button id="arch-reset" class="ghost">về góc ban đầu</button>
+        </div>
+
+        <div id="arch3d" class="arch3d"></div>
+        <div id="arch-legend" class="legend"></div>
+        <p id="arch-summary" class="caption"></p>
+        <div id="arch-detail" class="arch-detail">
+          Bấm vào một ô trong sơ đồ để xem nó ăn khớp với những bộ phận nào.
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="head">
+          <h2><span class="num">2</span> Không gian embedding 3D</h2>
+          <p>
+            Mỗi <b>điểm</b> là một ký tự. Vị trí của nó là chỗ model đã xếp ký tự
+            đó trong "đầu" — sau khi chiếu bảng embedding
+            <b id="dmodel">?</b> chiều xuống 3 chiều.
+            Kéo chuột để xoay, lăn chuột để phóng to. Hai ký tự càng gần nhau
+            thì model càng coi chúng giống nhau.
+          </p>
+        </div>
+
+        <div class="controls">
+          <label class="check"><input type="checkbox" id="space-labels" /> hiện tên ký tự</label>
+          <label class="check"><input type="checkbox" id="space-spin" checked /> tự xoay</label>
+          <button id="space-reset" class="ghost">về góc ban đầu</button>
+        </div>
+
+        <div id="space3d" class="space3d"></div>
+        <div id="space-legend" class="legend"></div>
+        <p id="space-note" class="caption"></p>
+      </section>
+
+      <section class="panel">
+        <div class="head">
+          <h2><span class="num">3</span> Attention map</h2>
+          <p>
+            Mỗi <b>hàng</b> là một token đang tự hỏi. Mỗi <b>cột</b> là một token
+            được nhìn tới. Ô càng sáng nghĩa là càng chú ý. Nửa trên bị chặn, vì
+            token không được phép nhìn vào tương lai — nếu nhìn được thì lúc học
+            nó đã chép bài.
+          </p>
+        </div>
+
+        <div class="controls">
+          <div class="ctl">
+            <span class="ctl-label">Tầng</span>
+            <div id="layer-seg" class="seg"></div>
+          </div>
+          <div class="ctl">
+            <span class="ctl-label">Đầu (head)</span>
+            <div id="head-seg" class="seg"></div>
+          </div>
+        </div>
+
+        <div class="canvas-wrap"><canvas id="attn"></canvas></div>
+        <p id="attn-readout" class="readout">Đưa chuột lên bản đồ để xem token này chú ý vào đâu.</p>
+      </section>
+
+      <section class="panel" id="panel-experts">
+        <div class="head">
+          <h2><span class="num">4</span> Chuyên gia nào được chọn?</h2>
+          <p>
+            Mỗi token chỉ hỏi <b id="topk">?</b> trong <b id="nexperts">?</b>
+            chuyên gia, chứ không hỏi hết. Mỗi cột là một token, mỗi hàng là một
+            tầng. Phần màu càng cao nghĩa là chuyên gia đó được tin càng nhiều.
+          </p>
+        </div>
+
+        <div id="expert-legend" class="legend"></div>
+        <div id="expert-grid" class="exgrid"></div>
+        <p id="expert-empty" class="empty" hidden></p>
+      </section>
+
+      <section class="panel">
+        <div class="head">
+          <h2><span class="num">5</span> Loss theo thời gian</h2>
+          <p>
+            Loss là "model đoán sai bao nhiêu". Lúc chưa học nó đoán bừa nên loss
+            cao; càng học càng thấp. Đây là con số duy nhất cho biết việc học có
+            tiến bộ hay không.
+          </p>
+        </div>
+
+        <div class="controls">
+          <label class="check"><input type="checkbox" id="loss-log" /> thang log</label>
+          <label class="check"><input type="checkbox" id="loss-extra" /> hiện đường thứ hai</label>
+        </div>
+
+        <div id="loss-chart" class="chart"></div>
+      </section>
+
+      <footer class="foot">
+        <p>
+          Toàn bộ số liệu ở đây do chính các model trong repo chạy ra, không phải
+          hình minh hoạ. Ba cấp: <code>tiny_gpt/</code> ·
+          <code>mini_deepseek/</code> · <code>deepseek_lite/</code>
+        </p>
+      </footer>
+    </div>
+
+    <div id="tooltip" class="tooltip" hidden></div>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

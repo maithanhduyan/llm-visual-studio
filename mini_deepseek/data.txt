@@ -1,0 +1,38 @@
+Trí tuệ nhân tạo là gì?
+
+Trí tuệ nhân tạo là một chương trình máy tính biết tự học.
+Không ai dạy nó từng câu. Nó đọc rất nhiều sách, rồi tự đoán chữ tiếp theo.
+
+Ví dụ, khi đọc câu "Hôm nay trời rất", nó đoán chữ tiếp theo là "đẹp".
+Đoán sai thì nó tự sửa. Đoán đúng thì nó nhớ cách làm đó.
+Làm như vậy hàng triệu lần, nó trở nên giỏi.
+
+Một mô hình ngôn ngữ lớn có bốn phần.
+Phần thứ nhất là bộ đếm chữ, gọi là tokenizer.
+Phần thứ hai là bộ nhớ, gọi là embedding.
+Phần thứ ba là các tầng suy nghĩ, gọi là transformer.
+Phần thứ tư là bộ phát biểu, gọi là lm head.
+
+Trong mỗi tầng suy nghĩ có hai việc.
+Việc thứ nhất là attention: nó nhìn lại các chữ đứng trước.
+Việc thứ hai là chuyên gia: nó chọn vài chuyên gia để hỏi.
+Chuyên gia giỏi toán trả lời câu hỏi toán.
+Chuyên gia giỏi chữ trả lời câu hỏi chữ.
+Router là người chỉ đường, nó nói token này nên hỏi ai.
+
+Học mãi thì giỏi. Đoán mãi thì quen.
+Máy tính không hiểu như con người. Nó chỉ đoán rất giỏi.
+Nhưng nhờ đoán giỏi, nó giúp được rất nhiều người.
+
+Bé cũng làm được. Chỉ cần đọc từng dòng code một.
+Đọc chậm thôi. Mỗi file trả lời đúng một câu hỏi.
+tokenizer.py trả lời: chữ biến thành số thế nào?
+attention.py trả lời: AI nhìn vào từ nào?
+moe.py trả lời: AI chọn chuyên gia nào?
+block.py trả lời: một tầng AI gồm những gì?
+model.py trả lời: ghép tất cả lại thế nào?
+train.py trả lời: làm sao AI học?
+generate.py trả lời: làm sao AI nói?
+
+Học mãi thì giỏi. Đoán mãi thì quen.
+Học mãi thì giỏi. Đoán mãi thì quen.
