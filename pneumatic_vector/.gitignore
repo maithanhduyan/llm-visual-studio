@@ -1,0 +1,28 @@
+# Model sinh ra khi học
+runs/*
+!runs/.gitkeep
+
+# Chuyến bay ghi ra để trình xem 3D phát lại
+flights/*
+!flights/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Trình xem 3D
+viewer/node_modules/
+viewer/bun.lock
+
+# Trọng số và dữ liệu đối chiếu sinh ra bởi `python -m pneumatic_vector export`
+viewer/public/*.json
+!viewer/public/.gitkeep
+
+# Công cụ
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/

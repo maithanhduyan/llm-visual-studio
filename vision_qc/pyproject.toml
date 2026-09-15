@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vision-qc"
+version = "0.1.0"
+description = "Kiểm tra lỗi sản phẩm bằng camera 2MP — CNN huấn luyện từ đầu, giao tiếp PLC Mitsubishi để loại sản phẩm"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = [
+    "machine-vision",
+    "quality-control",
+    "defect-detection",
+    "cnn",
+    "from-scratch",
+    "plc",
+    "mitsubishi",
+    "mc-protocol",
+    "slmp",
+    "industrial-automation",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Intended Audience :: Manufacturing",
+]
+
+dependencies = [
+    "torch>=2.0",
+    "numpy>=1.24",
+    "opencv-python>=4.8",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff>=0.4"]
+
+[project.scripts]
+vision-qc = "vision_qc.__main__:main"
+
+[tool.setuptools]
+packages = ["vision_qc"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = ["E501"]

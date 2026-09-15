@@ -1,0 +1,26 @@
+# =====================================================================
+# ẢNH — KHÔNG BAO GIỜ ĐẨY LÊN GIT.
+#
+# Đây chính là lý do dự án này nằm riêng một thư mục. Vài nghìn ảnh 2MP là
+# vài GB, không được lẫn vào repo của các dự án khác.
+#
+# Chặn cả thư mục `data/`, không chỉ `data/raw/`: ảnh sinh ra bởi
+# `python -m vision_qc synth` cũng là dữ liệu huấn luyện, và nó cũng lớn.
+# =====================================================================
+data/**
+!data/.gitkeep
+
+# Model và log sinh ra khi huấn luyện
+runs/**
+!runs/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/

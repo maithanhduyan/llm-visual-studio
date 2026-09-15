@@ -1,0 +1,16 @@
+{
+  "name": "pneumatic-vector-viewer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "bun run server.ts",
+    "dev": "bun --hot server.ts"
+  },
+  "dependencies": {
+    "three": "^0.186.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.185.4",
+    "bun-types": "^1.4.2"
+  }
+}

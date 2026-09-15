@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pneumatic-vector"
+version = "0.1.0"
+description = "Động cơ đẩy vector khí nén — phóng lên 10-15 m rồi hạ xuống êm, do một model nhỏ tự huấn luyện quyết định"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = [
+    "control",
+    "pneumatic",
+    "thrust-vector",
+    "imitation-learning",
+    "dagger",
+    "llm",
+    "simulation",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Intended Audience :: Education",
+]
+
+dependencies = ["torch>=2.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff>=0.4"]
+
+[project.scripts]
+pneumatic-vector = "pneumatic_vector.__main__:main"
+
+[tool.setuptools]
+packages = ["pneumatic_vector"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = ["E501"]

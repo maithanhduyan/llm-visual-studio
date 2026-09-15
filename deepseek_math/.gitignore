@@ -1,0 +1,16 @@
+# Model sinh ra khi học
+runs/*
+!runs/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Công cụ
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/

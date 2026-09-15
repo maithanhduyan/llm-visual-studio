@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Động cơ đẩy vector khí nén</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <h1>Động cơ đẩy vector <span>khí nén</span></h1>
+        <p class="lede">
+          Một ống hình trụ chứa khí nén, vòi phun nghiêng được. Phóng lên
+          10–15 m rồi hạ xuống. Bộ ra quyết định cấp cao là một model nhỏ
+          <b>tự huấn luyện</b>; vòng điều khiển bên trong là PID chạy 1000 Hz.
+        </p>
+        <p class="lede tight">
+          Trang này có hai chế độ: <b>chạy sống</b> — vật lý và model chạy thật
+          ngay trong trình duyệt — và <b>phát lại</b> — xem lại chuyến bay mà
+          Python đã ghi.
+        </p>
+      </header>
+
+      <section class="bar">
+        <div class="row modes">
+          <button id="mode-live" class="mode on">Chạy sống</button>
+          <button id="mode-replay" class="mode">Phát lại</button>
+          <span id="mode-note" class="note"></span>
+        </div>
+      </section>
+
+      <!-- ============ CHẾ ĐỘ SỐNG ============ -->
+      <section class="bar" id="live-bar">
+        <p class="lede tight">
+          Vật lý chạy <b>thật</b> trong trình duyệt này, 1.000 bước mỗi giây.
+          Model ra lệnh 20 lần mỗi giây. Kéo thử một thanh là con tàu bay lại
+          ngay — không có gì được tính sẵn.
+        </p>
+
+        <div class="row">
+          <label class="pick">
+            <span>Bộ ra quyết định</span>
+            <select id="policy">
+              <option value="expert">Chuyên gia viết tay</option>
+              <option value="model">Model đã huấn luyện (121.220 thông số)</option>
+            </select>
+          </label>
+          <button id="live-run">Tạm dừng</button>
+          <button id="live-reset" class="ghost">Bay lại</button>
+        </div>
+
+        <div class="row">
+          <span id="live-status" class="note"></span>
+        </div>
+
+        <div class="sliders" id="sliders"></div>
+      </section>
+
+      <!-- ============ CHẾ ĐỘ PHÁT LẠI ============ -->
+      <section class="bar" id="replay-bar" hidden>
+        <label for="flight">Chuyến bay đã ghi</label>
+        <div class="row">
+          <select id="flight"></select>
+          <button id="play">Tạm dừng</button>
+          <button id="restart" class="ghost">Chạy lại</button>
+        </div>
+        <div class="row scrub">
+          <input id="scrub" type="range" min="0" max="1000" value="0" />
+          <span id="clock" class="clock">0.00 s</span>
+        </div>
+        <div class="row">
+          <label class="check"><input id="slow" type="checkbox" /> chậm 4 lần</label>
+          <label class="check"><input id="trail" type="checkbox" checked /> hiện vệt bay</label>
+          <label class="check"><input id="spin" type="checkbox" /> camera tự xoay</label>
+        </div>
+      </section>
+
+      <section class="stage">
+        <div id="scene" class="scene"></div>
+        <div id="hud" class="hud"></div>
+      </section>
+
+      <section class="panel">
+        <h2 id="decisions-title">Model đang ra lệnh gì</h2>
+        <div id="decisions" class="decisions"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Số liệu</h2>
+        <div id="summary" class="summary"></div>
+      </section>
+
+      <footer class="foot">
+        <p>
+          <b>Chạy sống</b>: vật lý và model chạy trong trình duyệt này — bản dịch
+          từ <code>vehicle.py</code>, <code>physics.py</code>,
+          <code>controller.py</code>, <code>expert.py</code> và
+          <code>deepseek_lite</code>, đã đối chiếu từng bước bằng
+          <code>bun run check-port.ts</code>.
+        </p>
+        <p>
+          <b>Phát lại</b>: đọc lại <code>flights/*.json</code> mà Python đã mô
+          phỏng và ghi ra.
+        </p>
+      </footer>
+    </div>
+
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

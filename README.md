@@ -6,7 +6,9 @@
 
 Model thật của DeepSeek: **552 tỷ thông số**. Kiến trúc thì giống nhau về ý tưởng.
 
-Repo có bốn cấp, đi từ dễ đến khó:
+Repo có bốn cấp, đi từ dễ đến khó, cộng thêm hai **hướng khác** — một cái dạy
+model một *kỹ năng* (`deepseek_math/`), một cái cho model *điều khiển* một vật
+thể bay (`pneumatic_vector/`).
 
 | | `tiny_gpt/` — Cấp 1 | `mini_deepseek/` — Cấp 2 | `deepseek_lite/` — Cấp 3 | `deepseek_prod/` — Cấp 4 |
 | --- | --- | --- | --- | --- |
@@ -46,6 +48,39 @@ python -m deepseek_lite benchmark  # đo xem đệm K/V nhanh hơn bao nhiêu
 cd ../deepseek_prod
 python -m deepseek_prod info       # xem model và cách chia
 python -m deepseek_prod check      # 7 phép kiểm chứng, mỗi phép có số đo
+
+# Hướng khác: dạy model một KỸ NĂNG, theo từng bước (làm toán):
+cd ../deepseek_math
+python -m deepseek_math steps        # xem năm bậc học
+python -m deepseek_math experiment   # thí nghiệm chính (~10 phút)
+
+# Hướng khác nữa: cho model ĐIỀU KHIỂN một vật thể bay (động cơ khí nén):
+cd ../pneumatic_vector
+python -m pneumatic_vector check     # 104 mục kiểm tra
+python -m pneumatic_vector expert    # xem chuyên gia viết tay bay
+python -m pneumatic_vector dagger    # dạy model lái, rồi chữa bệnh lệch đường
+python -m pneumatic_vector why       # vì sao model hỏng
+python -m pneumatic_vector fins      # cánh đuôi: có cần không, cần bao nhiêu
+python -m pneumatic_vector export    # xuất model cho trình duyệt chạy sống
+python -m pneumatic_vector fly       # ghi chuyến bay ra file
+python -m pneumatic_vector viewer    # mở trình xem 3D (cần bun)
+
+# Riêng trình xem: ba bộ kiểm tra, cần Chrome với --remote-debugging-port=9333
+cd viewer
+bun run check-port.ts                # bản TypeScript có khớp Python không
+bun run check-live.ts                # chế độ chạy sống có chạy thật không
+bun run check-viewer.ts              # chế độ phát lại
+
+# Hướng khác nữa: cho model NHÌN, và điều khiển van khí nén loại sản phẩm lỗi:
+cd ../vision_qc
+python -m vision_qc check            # 10 mục kiểm tra, mỗi mục có số đo
+python -m vision_qc camera           # camera 2MP có gì, đo fps thật
+python -m vision_qc capture          # thu ảnh thật từ camera
+python -m vision_qc synth            # hoặc sinh ảnh giả để thử cả đường ống ngay
+python -m vision_qc train            # dạy CNN từ đầu
+python -m vision_qc eval             # đo, và quét ngưỡng theo chi phí
+python -m vision_qc station          # chạy cả trạm, PLC Mitsubishi qua MC protocol
+python -m pytest -q                  # 41 bài test
 ```
 
 Muốn thử nhanh: `python train.py 200` (200 bước, ~1 phút).
@@ -288,6 +323,174 @@ Bốn mục của Cấp 4 **không chạy được trên máy CPU này** và đ�
 FlashAttention và FP8 cần GPU NVIDIA, 1M context cần huấn luyện lại ở ngữ
 cảnh dài, và speculative decoding cần một model nháp dùng chung từ vựng.
 Xem [`deepseek_prod/docs/han-che.md`](deepseek_prod/docs/han-che.md).
+
+---
+
+## Hướng khác: dạy model một kỹ năng — `deepseek_math/`
+
+Bốn cấp trên hỏi *"model hoạt động thế nào"*. `deepseek_math/` hỏi câu khác:
+***"model học được kỹ năng gì, và phải dạy theo trình tự nào"***.
+
+Năm bậc, từ bảng cộng tới số nhiều chữ số. Model chỉ 366 nghìn thông số, học
+một bậc trong ~2 phút. Kết quả đo được:
+
+| | 1 chữ số | 2 chữ số | 3 chữ số |
+| --- | --- | --- | --- |
+| học bảng cộng một chữ số | **100%** | 0% | 0% |
+| 2 chữ số, trả lời thẳng | 0% | 57,5% | 0% |
+| 2 chữ số, **viết từng bước** | 0% | **100%** | 0% |
+| 1-3 chữ số, viết từng bước | 8,7% | **100%** | **14,7%** |
+
+Bốn bài học, chi tiết ở [`deepseek_math/docs/ket-qua.md`](deepseek_math/docs/ket-qua.md):
+
+1. **Học thuộc bảng cộng không suy ra được gì** — 100% bảng đã học, 0% số hai
+   chữ số.
+2. **Viết ra từng bước thì làm được** — cùng bài, 57,5% thành 100%.
+3. **Học toàn số hai chữ số thì không làm được số ba chữ số** — model không
+   "cố rồi sai", nó viết **hai cột** cho bài ba chữ số, vì nó học được đúng câu
+   *"bài này có hai cột"*.
+4. **Cho nhiều độ dài lúc học thì suy rộng ra được** — bậc 5 viết đúng ba cột.
+   Rào cản về **thuật toán** đã qua; còn vướng ở phần **đọc chữ số đúng vị trí**.
+
+---
+
+## Hướng khác nữa: cho model ĐIỀU KHIỂN — `pneumatic_vector/`
+
+Bốn cấp trên đều hỏi *"model viết ra chữ gì"*. `pneumatic_vector/` hỏi câu khác:
+***"model làm được gì khi chữ nó viết ra khiến một vật thể bay lên hoặc rơi"***.
+
+Bài toán: một ống hình trụ dài 1,2 m chứa khí nén 10 bar. Phóng lên 10–15 m,
+rồi hạ xuống chạm đất dưới 2 m/s.
+
+| | |
+| --- | --- |
+| Khí nén | 112 g, 10 bar |
+| Khối lượng | 0,712 kg (nặng 7,0 N) |
+| Lực đẩy tối đa | **150,8 N — hơn trọng lượng 21,6 lần** |
+| Model quyết định | **121.220 thông số**, 4 chuyên gia |
+
+Hai tầng, hai nhịp — và đây là chỗ phân công quan trọng nhất của cả dự án:
+
+```text
+   model nhỏ (LLM)          20 Hz    nghĩ chậm, quyết định LỚN
+        ↓  LEN / GIU / ROI / HAM
+   PID ba tầng            1000 Hz    nghĩ nhanh, quyết định nhỏ
+        ↓  ga + góc vòi phun
+   vật lý                 1000 Hz
+```
+
+Chênh nhau **50 lần**. LLM không thể chạy ở 1000 Hz, và cũng không cần: quyết
+định "lên 12 mét" thì 20 lần mỗi giây là quá đủ.
+
+**Chiến thuật đáng học nhất:** giữ cho con tàu lơ lửng tốn ~10 g khí mỗi giây,
+mà chỉ có 112 g. Nên chuyên gia **rơi tự do rồi hãm ở cuối** — đo được là rơi
+6,6 m mà không tốn một gam khí nào. Đổi lại phải canh đúng lúc bắt đầu hãm, và
+**đó chính là việc của model**.
+
+**Kết quả đo được** — và đây là phần đáng đọc nhất:
+
+| | Chuyên gia viết tay | Model tự học |
+| --- | --- | --- |
+| 10 m | 10/10 | 0/10 |
+| 12 m | 10/10 | 9/10 |
+| 15 m | 10/10 | 9/10 |
+| **Tổng** | **30/30 (100%)** | **18/30 (60%)** |
+
+Học bắt chước thuần (không có DAgger) chỉ đạt **47%**, và đường đi không hề
+thẳng: vòng DAgger thứ nhất còn làm mọi thứ **tệ đi** (47% → 27%), phải tới
+vòng thứ hai mới vượt được vòng đầu. Dừng ở vòng 1 thì kết luận sẽ là "DAgger
+phản tác dụng" — và kết luận đó sẽ sai, chỉ vì dừng quá sớm.
+
+Chỗ hỏng thì rất có quy tắc: đề bài 10 m hỏng **0/10**, và cả 10 chuyến đều
+chạm đất 7,9–10,3 m/s. Hỏng có hệ thống nghĩa là tìm ra được nguyên nhân:
+
+```text
+  đề bài | chuyên gia hãm ở | model hãm ở | chạm đất
+    10.0  |          5.10 m  |     4.41 m  |  8.46 m/s   HỎNG
+    12.0  |          6.57 m  |     7.62 m  |  1.92 m/s    ĐẠT
+    15.0  |          7.78 m  |     8.36 m  |  1.76 m/s    ĐẠT
+```
+
+Model học đúng phần **vận tốc** (10,6–12,4 m/s, sát chuyên gia 11,0–12,8) nhưng
+bỏ mất phần **độ cao**. Quy tắc thật là `v ≤ sqrt(2·a·h)` — phụ thuộc vào độ
+cao còn lại. Lệch **0,69 m** ở độ cao hãm đủ để chạm đất 8,46 m/s thay vì
+1,97 m/s. Ở gần biên của bài toán, một sai số nhỏ là chết.
+
+Lệnh `python -m pneumatic_vector why` in ra đúng bảng so sánh đó.
+
+Lệnh `python -m pneumatic_vector fins` trả lời một câu hỏi thiết kế: *"gắn thêm
+hai cánh đuôi để rơi chính xác hơn?"*. Đo được: cánh giữ thân tàu thẳng rất tốt
+(rơi tự do 178° → 3,5°) nhưng đổi quỹ đạo rơi **0,4%** — cánh không tạo lực
+ngang nên không dẫn hướng được. Và cỡ cánh đủ để tĩnh ổn định lại làm hỏng việc
+lái (15/15 → 10/15 → 0/15), vì con tàu lái bằng cách nghiêng thân.
+
+Có cả **trình xem 3D** với hai chế độ:
+
+- **Chạy sống** — `vehicle.py`, `physics.py`, `controller.py`, `expert.py` và cả
+  `deepseek_lite` đã được dịch sang TypeScript, nên trình duyệt **tự chạy vật lý
+  1.000 bước mỗi giây** và model tự ra lệnh 20 lần mỗi giây. Không có file
+  chuyến bay nào; kéo thanh chỉnh khối lượng hay áp suất thì con tàu bay lại
+  ngay. Đo trên Chrome thật: **1.004 bước/giây**, mỗi lần model quyết định tốn
+  **26,7 ms**.
+- **Phát lại** — xem lại chuyến bay Python đã mô phỏng và ghi ra file.
+
+Bản dịch không phải "viết lại cho vui": `bun run check-port.ts` so **40.000 con
+số** của 4.000 bước vật lý, cả chuyến bay chuyên gia 7.547 bước, 28 câu model
+viết ra, và 3 chuyến bay đầu-cuối — **14/14 mục đạt, lệch cỡ 1e-9**.
+
+Đọc chi tiết: [`pneumatic_vector/README.md`](pneumatic_vector/README.md)
+
+---
+
+## Hướng khác nữa: cho model NHÌN — `vision_qc/`
+
+Năm dự án trên đều nhận chữ vào và trả chữ ra (hoặc trả lệnh). `vision_qc/`
+nhận **ảnh** và trả về một quyết định khiến một van khí nén thổi sản phẩm lỗi
+ra khỏi băng tải.
+
+Dự án này **không phải LLM** — nó là CNN, và nói rõ như vậy ngay dòng đầu.
+Nhưng phần "từ đầu" thì giữ nguyên: không pretrained, không torchvision, không
+thư viện PLC, không sklearn. Khoảng **5.750 dòng Python** cộng 660 dòng test.
+
+| | |
+| --- | --- |
+| Camera | Logitech C922, 1920×1080 = **2,07 MP**, **30 fps** MJPG |
+| Model | **296.465 thông số**, CNN 4 khối, 1 logit |
+| Đúng trên tập thi | **94,2%** · AUC **0,9723** |
+| PLC | Mitsubishi FX5U / Q series, giao thức **MC viết trên socket thô** |
+| Ngân sách mỗi quyết định | **1475 ms** · đã dùng **33 ms** (2,3%) |
+| Năng suất | **30 sản phẩm/phút** |
+| Test | **72 bài**, chạy trong 15 giây |
+
+Ba phát hiện đo được, cả ba đều thuộc loại không đọc tài liệu mà biết:
+
+1. **Thứ tự đặt tham số camera quyết định 5,6 lần tốc độ.** Đặt FOURCC trước
+   thì driver chốt YUY2 thô và 1080p bị hạ xuống **4,7 fps**; đặt độ phân giải
+   trước thì nhận MJPG và chạy **30,1 fps**. Camera không báo lỗi gì cả.
+
+2. **Vết xước 2 điểm ảnh không tồn tại.** Thu 1920×1080 về 192×192 là thu nhỏ
+   5,6 lần; một vết xước rộng 2 px còn 0,5 px và biến mất. Cách chữa không nằm
+   ở model mà ở **cắt ROI** trước khi thu nhỏ.
+
+3. **Ép 16:9 về vuông làm méo hình học 43,7%.** Đo trên hình tròn: ép vuông cho
+   40×71 px, cắt vuông giữa cho 71×71. Và vết xước 3 px mất gần một nửa tín
+   hiệu. `imageops.py` cắt vuông giữa.
+
+Cùng với `pneumatic_vector`, đây là dự án thứ hai trong repo hỏi câu
+***"model làm được gì khi đầu ra của nó khiến một vật thể thật chuyển động"*** —
+chỉ khác là ở đây vật thể nằm trên băng tải chứ không bay trên không.
+
+```bash
+cd vision_qc
+python -m vision_qc check      # 10 mục kiểm tra, có số đo
+python -m vision_qc camera     # camera có gì, đo fps thật
+python -m vision_qc capture    # thu ảnh thật
+python -m vision_qc synth      # hoặc sinh ảnh giả để thử ngay
+python -m vision_qc station    # chạy cả trạm, điều khiển PLC
+```
+
+Đọc chi tiết: [`vision_qc/README.md`](vision_qc/README.md) ·
+[`vision_qc/docs/giao-thuc-mc.md`](vision_qc/docs/giao-thuc-mc.md)
 
 ---
 
